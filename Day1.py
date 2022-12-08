@@ -15,3 +15,7 @@ print(type(Calories))
 totals=[sum(i) for i in Calories]
 
 print(max(totals))
+
+totals.sort(reverse=True)
+print(totals[:3])
+
