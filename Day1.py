@@ -1,21 +1,26 @@
+# import required packages
 import numpy as np
-import scipy as sci
 import pandas as pd
 import sys
 
-elf = pd.read_csv('Day1.txt', skip_blank_lines=False, header=None, names=["Cal"])
+# import the input data, making sure to retain the blank lines which separate the groups
+Day1 = pd.read_csv('Day1.txt', skip_blank_lines=False, header=None, names=["Calories"])
 
-pd.set_option('display.max_rows', elf.shape[0]+1)
+# generate a list of breaks based on NaN lines
+breaks = Day1.Calories.isna()
 
-g = elf.Cal.isna()
-Calories=elf[~g].groupby(g.cumsum()).Cal.apply(list).tolist()
-print(Calories)
-print(type(Calories))
+# apply the breaks to Day1 list to generate a list representing each elf
+Elves=Day1[~breaks].groupby(breaks.cumsum()).Calories.apply(list).tolist()
 
-totals=[sum(i) for i in Calories]
+# add up the values in each list to see how many caloires each elf is carrying
+totals=[sum(i) for i in Elves]
 
+# print the largest sum value representing the greatest amount of calories a single elf is carrying
 print(max(totals))
 
+# sort the list of total calories per elf in descending order
 totals.sort(reverse=True)
-print(totals[:3])
+
+# print the top 3 calorie totals
+print(sum(totals[:3]))
 
